@@ -1,0 +1,1 @@
+"# PureCart"  initgit add README.mdgit commit -m "first commit"git branch -M maingit remote add origin https://github.com/Mia379-art/PureCart.gitgit push -u origin main

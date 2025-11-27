@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Cart Project</title>
+
+    <style>
+     body{
+           background:linear-gradient(135deg, #fffcf2, #ffeeda);;
+           font-family: Vazir, sans-serif;
+        }
+
+.main_countainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 2rem;
+    margin-top: 2rem;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.3);
+}
+.main_countainer_form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 550px;
+    margin: auto;   
+    background: linear-gradient(135deg, #ffffff40, #ffffff10);
+    backdrop-filter: blur(12px);
+
+       
+}
+
+
+
+.main_box {
+    width: 280px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 1rem;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    box-shadow:
+    0 4px 12px rgba(255, 255, 255, 0.3),
+    0 1px 4px rgba(255, 255, 255, 0.3);
+    transition: transform .25s ease, box-shadow .25s ease;
+    background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.45));
+    backdrop-filter: blur(12px);
+
+}
+
+.main_box:hover {
+    transform: translateY(-6px);
+    box-shadow: 
+        0 8px 22px (255, 255, 255, 0.3),
+        0 4px 10px (255, 255, 255, 0.3);
+}
+
+
+.image_box img {
+    width: 100%;
+    height: 220px;
+    border-radius: .8rem;
+    object-fit: cover;
+}
+
+
+.text_box h2 {
+    font-size: 1.1rem;
+    font-weight: bolder;
+    font-style: b;
+    color: #222;
+    margin: 0;
+}
+
+.price_box {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #444;
+}
+
+
+.stars {
+    color: #facc15; 
+    font-size: 1.2rem;
+}
+
+
+.buy_product button {
+    width: 100%;
+    padding: 0.8rem;
+    border: none;
+    border-radius: .6rem;
+    background: linear-gradient(135deg, #ffefba, #ffc47e);
+    color: rgb(31, 30, 30);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    
+}
+
+.buy_product button:hover {
+    background: linear-gradient(135deg, #ffc37e, #ff9a3e);
+    transform: translateY(-2px);
+}
+
+.buy_product button:active {
+    transform: scale(0.97);
+}
+
+.main_countainer_form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: 450px;
+    padding: 4rem;
+    background: linear-gradient(to left, lightblue, lightgreen, rgb(169, 105, 189));
+    border-radius: 1rem;
+    background-size: 400% 400%;   /* بزرگ‌تر تا وقتی حرکت کند دیده شود */
+    animation: gradientMove 5s ease infinite;
+    
+}
+
+.main_form {
+    width: 400px;
+   background: rgba(255, 255, 255, 0.3);
+    padding: 1.8rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    background: linear-gradient(135deg, #ffffff40, #ffffff10);
+backdrop-filter: blur(12px);
+
+    
+    
+}
+
+.main_form input,
+#starInput {
+    width: 90%;
+    padding: 0.7rem;
+    border: 1px solid #ddd;
+    border-radius: .5rem;
+    font-size: 1rem;
+    color: darkgray;
+}
+
+
+
+.main_form input:focus,
+#starInput:focus {
+    border-color: #e5ab46;
+    outline: none;
+}
+
+.main_form_btn {
+    width: 90%;
+    padding: 0.9rem;
+    background: linear-gradient(135deg, #ffefba, #ffc47e);
+    color: #fff;
+    border: none;
+    border-radius: .6rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.main_form_btn:hover {
+     background: linear-gradient(135deg, #ffc37e, #ff9a3e);
+}
+
+input[type="file"]::file-selector-button {
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: .5rem;
+    background: linear-gradient(135deg, #ffefba, #ffc47e);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s ease;
+}
+input[type="file"]::file-selector-button:hover {
+     background: linear-gradient(135deg, #ffc37e, #ff9a3e);
+}
+
+.input-error {
+  border-color: red;
+}
+.input-success {
+  border-color: green;
+}
+
+
+.error-msg {
+  color: red;
+  font-size: 0.9rem;
+}
+.success-msg {
+  color: green;
+  font-size: 0.9rem;
+}
+.action_box {
+  margin-top: 10px;
+  display: flex;
+  gap: 0.6rem;
+}
+
+.delete-btn {
+ background: rgba(230, 57, 57, 0.35);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: .5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+
+.delete-btn:hover {
+  background: #cc2e2e;
+  transform: translateY(-2px);
+}
+
+.edit-btn {
+  background: rgba(246, 166, 35, 0.35);   
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: .5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+
+.edit-btn:hover {
+  background: #e59413;
+  transform: translateY(-2px);
+}
+@keyframes gradientMove {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+
+
+
+</style>
+</head>
+<body dir="rtl">
+
+
+    <section>
+        <div class="card">
+        
+        <div class="main_countainer_form css-selector" id="mainContainer" >
+            <form action="" class="main_form">
+                <input type="file" id="imageInput" accept="image/*" required>
+                <input type="text" placeholder="نام محصول" minlength="3" required>
+                <small class="error_msg"></small>
+                <input type="number" placeholder="قیمت" minlength="3" required>
+                <small class="error_msg"></small>
+                <input type="number" placeholder="تعداد محصول" min="1" required>
+                <small class="error_msg"></small>
+                
+
+<!-- Dropdown ستاره -->
+                <select id="starInput" required>
+    <option value="" disabled selected>امتیاز (1 تا 5 ستاره)</option>
+    <option value="1">⭐</option>
+    <option value="2">⭐⭐</option>
+    <option value="3">⭐⭐⭐</option>
+    <option value="4">⭐⭐⭐⭐</option>
+    <option value="5">⭐⭐⭐⭐⭐</option>
+                </select>
+                <small class="error_msg"></small>
+
+            <button class="main_form_btn" type="submit">
+                ساخت کارت
+            </button>
+           
+        </div>
+        </div>
+
+
+        <div class="main_countainer">
+
+            <div id="1" class="main_box">
+                <div class="image_box">
+                    <img src="data:image/jpeg;base64,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" alt="img">
+                </div>
+                <div class="text_box">
+                    <h2>
+                        آفتابه نارنجی 
+                    </h2>
+                </div>
+                <div class="price_box">
+                    <span class="main_price">567</span>
+                    <span>تومان</span>
+                </div>
+                
+                <div class="stars">
+                    <option value="5">⭐⭐⭐⭐⭐</option>
+                </div>
+                <div class="buy_product">
+                    <button>
+                        خرید محصول
+                    </button>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+       <script src="../product-card/main.js"></script>
+
+
+
+
+
+
+
+
+    
+</body>
+</html>
