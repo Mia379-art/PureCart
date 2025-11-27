@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Get Date Methods in JS</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+      }
+      li {
+        margin-bottom: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>تمام قابلیت‌های get در Date</h1>
+    <ul id="dateList"></ul>
+
+    <script>
+      const dateList = document.getElementById("dateList");
+
+      // ایجاد یک تاریخ فعلی
+      const now = new Date();
+
+      // 1. getFullYear() → سال کامل چهاررقمی
+      const year = now.getFullYear();
+      dateList.innerHTML += `<li>getFullYear(): ${year} → سال کامل</li>`;
+
+      // 2. getMonth() → ماه (۰ تا ۱۱)
+      const month = now.getMonth();
+      dateList.innerHTML += `<li>getMonth(): ${month} → ماه، 0=ژانویه، 11=دسامبر</li>`;
+
+      // 3. getDate() → روز ماه (۱ تا ۳۱)
+      const dayOfMonth = now.getDate();
+      dateList.innerHTML += `<li>getDate(): ${dayOfMonth} → روز ماه</li>`;
+
+      // 4. getDay() → روز هفته (۰ تا ۶)
+      const dayOfWeek = now.getDay();
+      dateList.innerHTML += `<li>getDay(): ${dayOfWeek} → روز هفته، 0=یکشنبه، 6=شنبه</li>`;
+
+      // 5. getHours() → ساعت (۰ تا ۲۳)
+      const hours = now.getHours();
+      dateList.innerHTML += `<li>getHours(): ${hours} → ساعت محلی</li>`;
+
+      // 6. getMinutes() → دقیقه (۰ تا ۵۹)
+      const minutes = now.getMinutes();
+      dateList.innerHTML += `<li>getMinutes(): ${minutes} → دقیقه</li>`;
+
+      // 7. getSeconds() → ثانیه (۰ تا ۵۹)
+      const seconds = now.getSeconds();
+      dateList.innerHTML += `<li>getSeconds(): ${seconds} → ثانیه</li>`;
+
+      // 8. getMilliseconds() → میلی‌ثانیه (۰ تا ۹۹۹)
+      const ms = now.getMilliseconds();
+      dateList.innerHTML += `<li>getMilliseconds(): ${ms} → میلی‌ثانیه</li>`;
+
+      // 9. getTime() → تعداد میلی‌ثانیه از 1 ژانویه 1970 UTC
+      const time = now.getTime();
+      dateList.innerHTML += `<li>getTime(): ${time} → میلی‌ثانیه از 1970/01/01 UTC</li>`;
+
+      // 10. getTimezoneOffset() → اختلاف دقیقه‌ای با UTC
+      const tzOffset = now.getTimezoneOffset();
+      dateList.innerHTML += `<li>getTimezoneOffset(): ${tzOffset} → اختلاف دقیقه با UTC</li>`;
+
+      // 11. متدهای UTC
+      const utcYear = now.getUTCFullYear();
+      dateList.innerHTML += `<li>getUTCFullYear(): ${utcYear} → سال بر اساس UTC</li>`;
+
+      const utcMonth = now.getUTCMonth();
+      dateList.innerHTML += `<li>getUTCMonth(): ${utcMonth} → ماه بر اساس UTC</li>`;
+
+      const utcDate = now.getUTCDate();
+      dateList.innerHTML += `<li>getUTCDate(): ${utcDate} → روز ماه بر اساس UTC</li>`;
+
+      const utcDay = now.getUTCDay();
+      dateList.innerHTML += `<li>getUTCDay(): ${utcDay} → روز هفته بر اساس UTC</li>`;
+
+      const utcHours = now.getUTCHours();
+      dateList.innerHTML += `<li>getUTCHours(): ${utcHours} → ساعت بر اساس UTC</li>`;
+
+      const utcMinutes = now.getUTCMinutes();
+      dateList.innerHTML += `<li>getUTCMinutes(): ${utcMinutes} → دقیقه بر اساس UTC</li>`;
+
+      const utcSeconds = now.getUTCSeconds();
+      dateList.innerHTML += `<li>getUTCSeconds(): ${utcSeconds} → ثانیه بر اساس UTC</li>`;
+
+      const utcMs = now.getUTCMilliseconds();
+      dateList.innerHTML += `<li>getUTCMilliseconds(): ${utcMs} → میلی‌ثانیه بر اساس UTC</li>`;
+    </script>
+  </body>
+</html>

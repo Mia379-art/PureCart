@@ -36,6 +36,65 @@ submitBtn.addEventListener("click", async (e) => {
 
 
   function NewRecordId() {
+    const existingCards = JSON.parse(localStorage.getItem("cards")) || [];
+    if (existingCards.length === 0) return 1;
+    const ids = existingCards.map((card) => card.id);
+    const maxId = Math.max(...ids);
+
+    // یک واحد اضافه کردن و ریترن کردن
+    return maxId + 1;
+  }
+    // بررسی اینکه آیا فرم در حالت ادیت است یا ایجاد آیتم جدید
+  const editingId = form.getAttribute("data-edit-id");
+
+  if (editingId) {
+    // حالت ادیت: id موجود را نگه می‌داریم و فیلدها را آپدیت می‌کنیم
+    const idNum = Number(editingId);
+    const existing = getCardById(idNum) || {};
+
+    const updatedCard = {
+      id: idNum,
+      createDate: existing.createDate || Date.now(),
+      img: base64Image || existing.img || "",
+      name: inputs[1].value,
+      price: inputs[2].value,
+      quantity: +inputs[3].value,
+      stars: +document.getElementById("starInput").value,
+    };
+    // ذخیره در localStorage (ویرایش)
+    editCardInLocal(updatedCard);
+    // به‌روزرسانی DOM برای کارت مربوطه
+    const cardEl = document.getElementById(String(idNum));
+    if (cardEl) {
+      const imgEl = cardEl.querySelector(".card-img");
+      if (imgEl) imgEl.src = updatedCard.img;
+
+      const nameEl = cardEl.querySelector(".text_box h2");
+      if (nameEl) nameEl.textContent = updatedCard.name;
+
+      const priceEl = cardEl.querySelector(".main_price");
+      if (priceEl) priceEl.textContent = updatedCard.price;
+
+      const qtyEl = cardEl.querySelector(".quantity_box");
+      if (qtyEl) qtyEl.textContent = `تعداد: ${updatedCard.quantity}`;
+
+      const starsEl = cardEl.querySelector(".stars");
+      if (starsEl) starsEl.innerHTML = "⭐".repeat(updatedCard.stars);
+    }
+
+    // پاک‌کردن حالت ادیت فرم و ریست فرم
+    form.removeAttribute("data-edit-id");
+    inputs.forEach((input) => {
+      input.value = "";
+      input.classList.remove("input-error", "input-success");
+      const errorMsg = input.nextElementSibling;
+      if (errorMsg) errorMsg.textContent = "";
+    });
+    inputs[0].focus();
+    return; // ← مهم! جلوگیری از اجرای بخش ایجاد کارت جدید
+  }
+
+
     // میری توی لوکال استوریج و کل کارت های موجود رو برمیداری میاری نه کلشون رو فقط فیلد
     // id
     // بعد از اینکه اوردی تو لیستی از اعداد داری از بزرگ به کوچیک مربتبشون میکنی یا
@@ -47,7 +106,7 @@ submitBtn.addEventListener("click", async (e) => {
 
     // یه نکته اگر کارتی پیدا نکردی اون لیستت نال شد یه شرط میزاری که خروجی این بشه 1 کی میشه 1
     // زمانی که اولین کارت میخواد اد بشه
-  }
+  
 
   // ساخت آبجکت کارت
   // موجودی م تو ورودی بگیر ازش
@@ -61,8 +120,9 @@ submitBtn.addEventListener("click", async (e) => {
     stars: +document.getElementById("starInput").value,
   };
 
+  console.log(cardData)
 
-  // اینجا هم متفاوت میشه دیگه تو نمیدونی قراره کارت اد شه 
+
   saveCardToLocal(cardData);
 
 
@@ -89,28 +149,144 @@ function getBase64(file) {
     reader.readAsDataURL(file);
   });
 }
-
-// LocalStorage
-
 // متد اد کارت جدید تو لوکال استوریج
 // متد های کلی برای اینکه از لوکال استوریج استفاده کنی کراد لوکال استوریج
-
-
-// اسم وردی بشه کارت
 const saveCardToLocal = (cardData) => {
   let existingCards = JSON.parse(localStorage.getItem("cards")) || [];
 
-  // 
-  // const existingCard = existingCards.find((c) => c.id === cardData.id);
-
-  // if (existingCard) {
-  //   cardData.quantity = existingCard.quantity + 1;
-  //   existingCards = existingCards.filter((c) => c.id !== cardData.id);
-  // }
-
   existingCards.push(cardData);
+
   localStorage.setItem("cards", JSON.stringify(existingCards));
 };
+const getAllCards = () => {
+  return JSON.parse(localStorage.getItem("cards")) || [];
+};
+const getCardById = (id) => {
+  const cards = JSON.parse(localStorage.getItem("cards")) || [];
+  return cards.find((c) => c.id === id) || null;
+};
+//ویرایش کارت
+const editCardInLocal = (updatedCard) => {
+  let existingCards = JSON.parse(localStorage.getItem("cards")) || [];
+
+  const index = existingCards.findIndex((c) => c.id === updatedCard.id);
+
+  if (index === -1) return false;
+
+  existingCards[index] = {
+    ...existingCards[index],
+    ...updatedCard,
+  };
+
+  localStorage.setItem("cards", JSON.stringify(existingCards));
+  return true;
+};
+//حذف کارت
+const deleteCardFromLocal = (cardId) => {
+  let existingCards = JSON.parse(localStorage.getItem("cards")) || [];
+
+  existingCards = existingCards.filter((c) => c.id !== cardId);
+
+  localStorage.setItem("cards", JSON.stringify(existingCards));
+};
+
+  // بررسی اینکه آیا فرم در حالت ادیت است یا ایجاد آیتم جدید
+  const editingId = form.getAttribute("data-edit-id");
+
+  if (editingId) {
+    // حالت ادیت: id موجود را نگه می‌داریم و فیلدها را آپدیت می‌کنیم
+    const idNum = Number(editingId);
+    const existing = getCardById(idNum) || {};
+
+    const updatedCard = {
+      id: idNum,
+      // نگه داشتن تاریخ ایجاد قبلی اگر موجود باشد
+      createDate: existing.createDate || Date.now(),
+      // اگر فایل عکس جدید انتخاب شده باشه از base64Image استفاده کن در غیر اینصورت عکس قبلی رو نگه دار
+      img: base64Image || existing.img || "",
+      name: inputs[1].value,
+      price: inputs[2].value,
+      quantity: +inputs[3].value,
+      stars: +document.getElementById("starInput").value,
+    };
+
+    // ذخیره در localStorage (ویرایش)
+    editCardInLocal(updatedCard);
+
+    // به‌روزرسانی DOM برای کارت مربوطه (بدون reload)
+    const cardEl = document.getElementById(String(idNum));
+    if (cardEl) {
+      const imgEl = cardEl.querySelector(".card-img");
+      if (imgEl) imgEl.src = updatedCard.img;
+
+      const nameEl = cardEl.querySelector(".text_box h2");
+      if (nameEl) nameEl.textContent = updatedCard.name;
+
+      const priceEl = cardEl.querySelector(".main_price");
+      if (priceEl) priceEl.textContent = updatedCard.price;
+
+      const qtyEl = cardEl.querySelector(".quantity_box");
+      if (qtyEl) qtyEl.textContent = `تعداد: ${updatedCard.quantity}`;
+
+      const starsEl = cardEl.querySelector(".stars");
+      if (starsEl) starsEl.innerHTML = "⭐".repeat(updatedCard.stars);
+    }
+
+    // پاک‌کردن حالت ادیت فرم و ریست فرم
+    form.removeAttribute("data-edit-id");
+    inputs.forEach((input) => {
+      input.value = "";
+      input.classList.remove("input-error", "input-success");
+      const errorMsg = input.nextElementSibling;
+      if (errorMsg) errorMsg.textContent = "";
+    });
+    inputs[0].focus();
+
+  } else {
+    // حالت ایجاد کارت جدید (همان کد قدیمی)
+    const cardData = {
+      id: NewRecordId(),
+      createDate: Date.now(),
+      img: base64Image,
+      name: inputs[1].value,
+      price: inputs[2].value,
+      quantity: +inputs[3].value,
+      stars: +document.getElementById("starInput").value,
+    };
+
+    console.log(cardData);
+
+    saveCardToLocal(cardData);
+    createCard(cardData);
+
+    // ریست کردن فرم
+    inputs.forEach((input) => {
+      input.value = "";
+      input.classList.remove("input-error", "input-success");
+      const errorMsg = input.nextElementSibling;
+      if (errorMsg) errorMsg.textContent = "";
+    });
+
+    inputs[0].focus();
+  }
+  
+
+
+// اسم وردی بشه کارت
+// const saveCardToLocal = (cardData) => {
+//   let existingCards = JSON.parse(localStorage.getItem("cards")) || [];
+
+//   // 
+//   // const existingCard = existingCards.find((c) => c.id === cardData.id);
+
+//   // if (existingCard) {
+//   //   cardData.quantity = existingCard.quantity + 1;
+//   //   existingCards = existingCards.filter((c) => c.id !== cardData.id);
+//   // }
+
+//   existingCards.push(cardData);
+//   localStorage.setItem("cards", JSON.stringify(existingCards));
+// };
 
 // متد ادیت کارت جدید تو لوکال استوریج
 // اسم وردی بشه کارت
@@ -120,6 +296,11 @@ const saveCardToLocal = (cardData) => {
 
 // متد دلیت کارت جدید تو لوکال استوریج
 // اسم وردی بشه کارت
+
+
+
+
+
 // همون حرکت قبلی ایدی کارت ووردی ولی اینبار از لوکال استوریج حذف میشه
 
 
@@ -132,117 +313,103 @@ const saveCardToLocal = (cardData) => {
 
 
 
-
-
-
-
-
-
-
-
-// ساخت کارت روی صفحه (فقط برای پرنت خودش)
+// اصلاح این کارت ها روی صفحه
 function createCard(card) {
   // ساخت کارت
   const newCard = document.createElement("div");
   newCard.classList.add("main_box");
+  newCard.setAttribute("id", card.id); // ← اینجا id رو روی main_box گذاشتیم
 
-  // تصویر
-  const imgBox = document.createElement("div");
-  imgBox.classList.add("image_box");
-  const img = document.createElement("img");
-  img.src = card.img;
-  img.classList.add("card-img");
-  imgBox.appendChild(img);
+  newCard.innerHTML = `
+ <div class="image_box" id="${card.id}">
+    <img src="${card.img}" alt="" class="card-img">
+  </div>
 
-  // نام محصول
-  const textBox = document.createElement("div");
-  textBox.classList.add("text_box");
-  const h2 = document.createElement("h2");
-  h2.textContent = card.name;
-  textBox.appendChild(h2);
+  <div class="text_box">
+    <h2>${card.name}</h2>
+  </div>
 
-  // قیمت
-  const priceBox = document.createElement("div");
-  priceBox.classList.add("price_box");
-  const spanPrice = document.createElement("span");
-  spanPrice.classList.add("main_price");
-  spanPrice.textContent = card.price;
-  priceBox.appendChild(spanPrice);
-  priceBox.appendChild(document.createTextNode("تومان"));
+  <div class="price_box">
+    <span class="main_price">${card.price}</span>
+    تومان
+  </div>
 
-  // تعداد
-  const quantityBox = document.createElement("div");
-  quantityBox.classList.add("quantity_box");
-  quantityBox.textContent = `تعداد: ${card.quantity}`;
+  <div class="quantity_box">
+    تعداد: ${card.quantity}
+  </div>
 
-  // ستاره‌ها
-  const starBox = document.createElement("div");
-  starBox.classList.add("stars");
-  starBox.innerHTML = "⭐".repeat(card.stars);
+  <div class="stars">
+    ${"⭐".repeat(card.stars)}
+  </div>
 
-  // دکمه خرید
-  const buyBox = document.createElement("div");
-  buyBox.classList.add("buy_product");
-  const buyBtn = document.createElement("button");
-  buyBtn.textContent = "خرید محصول";
-  buyBtn.classList.add("buy-btn");
-  buyBox.appendChild(buyBtn);
+  <div class="buy_product">
+    <button class="buy-btn">خرید محصول</button>
+  </div>
 
-  // دکمه حذف و ویرایش
-  const actionBox = document.createElement("div");
-  actionBox.classList.add("action_box");
-  const deleteBtn = document.createElement("button");
-  deleteBtn.textContent = "حذف";
-  deleteBtn.classList.add("delete-btn");
-  const editBtn = document.createElement("button");
-  editBtn.textContent = "ویرایش";
-  editBtn.classList.add("edit-btn");
-  actionBox.appendChild(deleteBtn);
-  actionBox.appendChild(editBtn);
+  <div class="action_box">
+    <button class="delete-btn">حذف</button>
+    <button class="edit-btn">ویرایش</button>
+  </div>
+    
+  `;
 
-  // اضافه کردن همه المان‌ها به کارت
-  newCard.appendChild(imgBox);
-  newCard.appendChild(textBox);
-  newCard.appendChild(priceBox);
-  newCard.appendChild(quantityBox);
-  newCard.appendChild(starBox);
-  newCard.appendChild(buyBox);
-  newCard.appendChild(actionBox);
-
-  // اضافه کردن کارت به کانتینر
   document.querySelector(".main_countainer").appendChild(newCard);
+  // دکمه‌های حذف و ویرایش که داخل innerHTML ساخته شدند
+  const deleteBtn = newCard.querySelector(".delete-btn");
+  const editBtn = newCard.querySelector(".edit-btn");
 
-  // مدیریت خرید کارت (فقط روی همین کارت)
-  buyBtn.addEventListener("click", () => {
-    if (card.quantity > 0) {
-      card.quantity -= 1;
-      quantityBox.textContent = `تعداد: ${card.quantity}`;
-
-      let cards = JSON.parse(localStorage.getItem("cards")) || [];
-      cards = cards.map((c) =>
-        c.id === card.id ? { ...c, quantity: card.quantity } : c
-      );
-      localStorage.setItem("cards", JSON.stringify(cards));
-    }
-  });
-
-  // حذف کارت (فقط روی همین کارت)
+  // حذف کارت از صفحه + لوکال
   deleteBtn.addEventListener("click", () => {
-    newCard.remove();
-    let cards = JSON.parse(localStorage.getItem("cards")) || [];
-    cards = cards.filter((c) => c.id !== card.id);
-    localStorage.setItem("cards", JSON.stringify(cards));
+    deleteCardFromLocal(card.id); // ← حذف از localStorage
+    newCard.remove(); // ← حذف از DOM
   });
 
   // ویرایش کارت (فقط روی همین کارت)
   editBtn.addEventListener("click", () => {
+    // مقداردهی فرم با داده‌های کارت
     inputs[1].value = card.name;
     inputs[2].value = card.price;
     inputs[3].value = card.quantity;
     document.getElementById("starInput").value = card.stars;
+
+    // ذخیره id کارت داخل فرم (علامت اینکه ادیت است)
     form.setAttribute("data-edit-id", card.id);
+
     form.scrollIntoView({ behavior: "smooth" });
   });
+  
+
+  // مدیریت خرید کارت (فقط روی همین کارت)
+  // buyBtn.addEventListener("click", () => {
+  //   if (card.quantity > 0) {
+  //     card.quantity -= 1;
+  //     quantityBox.textContent = `تعداد: ${card.quantity}`;
+
+  //     let cards = JSON.parse(localStorage.getItem("cards")) || [];
+  //     cards = cards.map((c) =>
+  //       c.id === card.id ? { ...c, quantity: card.quantity } : c
+  //     );
+  //     localStorage.setItem("cards", JSON.stringify(cards));
+  //   }
+  // });
+
+  // حذف کارت (فقط روی همین کارت)
+  // deleteBtn.addEventListener("click", () => {
+  //   newCard.remove();
+  //   let cards = JSON.parse(localStorage.getItem("cards")) || [];
+  //   cards = cards.filter((c) => c.id !== card.id);
+  //   localStorage.setItem("cards", JSON.stringify(cards));
+  // });
+
+  // ویرایش کارت (فقط روی همین کارت)
+  // editBtn.addEventListener("click", () => {
+  //   inputs[1].value = card.name;
+  //   inputs[2].value = card.price;
+  //   inputs[3].value = card.quantity;
+  //   document.getElementById("starInput").value = card.stars;
+  //   form.setAttribute("data-edit-id", card.id);
+  //   form.scrollIntoView({ behavior: "smooth" });
+  // });
 }
 
 // بارگذاری کارت‌ها از localStorage
