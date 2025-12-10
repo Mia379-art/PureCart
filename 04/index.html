@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Accordion Slider T1 - T2</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@30.0.0/dist/font-face.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <style>
+      body {
+        font-family: "Vazir", sans-serif;
+        background: #fff;
+        margin: 20px;
+        direction: rtl;
+      }
+
+      .slider-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .slider {
+        display: flex;
+        gap: 10px;
+        transition: transform 0.5s ease;
+        flex-wrap: nowrap;
+        overflow-x: scroll;
+        scroll-behavior: smooth;
+      }
+
+      .slide {
+        flex: 0 0 auto;
+        min-width: 100px;
+        padding: 10px 20px;
+        background: #3399ff;
+        color: #fff;
+        text-align: center;
+        border-radius: 10px;
+        cursor: pointer;
+        white-space: nowrap;
+       
+      }
+
+      .slide:hover {
+        background-color: #005286;
+      }
+      .slide.active {
+        background-color: #005286; /* همون رنگ هاور */
+      }
+
+      .arrow-btn {
+        background: rgba(0, 0, 0, 0.1);
+        border: none;
+        padding: 8px;
+        border-radius: 50%;
+        cursor: pointer;
+        position: relative;
+        z-index: 2;
+      }
+
+      .arrow-btn svg {
+        width: 30px;
+        height: 30px;
+        stroke: #000;
+        fill: none;
+        stroke-width: 2;
+      }
+
+      .sub-accordion {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .sub-item {
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .sub-header {
+        padding: 12px 15px;
+        background: #e8f6ff;
+        color: rgb(20, 15, 44);
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.3s ease;
+      }
+
+      .sub-header:hover {
+        background: #d7efff;
+      }
+
+      .sub-content {
+        display: none;
+        padding: 15px;
+        background: #eff3f7;
+        gap: 10px;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: space-evenly;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.75s ease;
+      }
+      .cards {
+        display: flex;
+        gap: 10px;
+        margin-top: 3px;
+      }
+
+      .cards.collapsed {
+        display: none;
+      }
+
+      .card {
+        display: block;
+        width: 200px;
+        padding: 20px;
+        border-radius: 20px;
+        text-decoration: none;
+        color: #007acc;
+        background: white;
+        text-align: center;
+        justify-content: space-evenly;
+        transition: transform 0.3s ease;
+      }
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .card .img {
+        width: 100px;
+        height: 100px;
+        border: 2px solid transparent;
+        border-radius: 50%;
+        margin: 0 auto 10px auto;
+        object-fit: fill;
+      }
+
+      .sub-content .card {
+        width: 180px;
+        border-radius: 12px;
+        padding: 15px;
+      }
+
+      .t2 {
+        display: none;
+        position: relative;
+        padding: 20px;
+        margin: 10px 0;
+        transition: max-height 0.5s ease;
+        overflow: hidden;
+      }
+
+      .t2.active {
+        display: block;
+        max-height: 1000px;
+        overflow: hidden;
+      }
+
+      .t2.active .cards {
+        display: flex;
+      }
+
+      .text-box h5 {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        padding: 10px 22px;
+        font-size: large;
+        color: #007acc;
+      }
+
+      @media (max-width: 768px) {
+        .slider-wrapper {
+          padding: 0 10px;
+        }
+        .slider {
+          gap: 8px;
+        }
+        .slide {
+          min-width: 120px;
+          padding: 8px 12px;
+          font-size: 14px;
+        }
+        .sub-content {
+          flex-wrap: wrap;
+          justify-content: center;
+          overflow: hidden;
+          transition: max-height 0.5s ease;
+        }
+        .sub-content .card {
+          width: 140px;
+          padding: 12px;
+          margin-bottom: 10px;
+        }
+      }
+      .sub-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+}
+.sub-item.active .sub-content {
+  max-height: 1000px; /* یا یک عدد بزرگ که همه محتوا را در بر بگیرد */
+}
+
+
+      @media (max-width: 480px) {
+        .slider {
+          gap: 5px;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+        .slide {
+          min-width: 100px;
+          padding: 6px 8px;
+          font-size: 12px;
+        }
+        .sub-content .card {
+          width: 120px;
+          padding: 10px;
+          overflow: hidden;
+          transition: max-height 0.5s ease;
+        }
+        .sub-accordion {
+          gap: 8px;
+        }
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="slider-wrapper">
+      <div class="slider" id="slider">
+        <!-- 14 Slides -->
+        <div class="slide" data-target="t2-1">زیست‌ فناوری پزشکی</div>
+        <div class="slide" data-target="t2-2">زیست‌ فناوری کشاورزی</div>
+        <div class="slide" data-target="t2-3">زیست‌ فناوری صنایع غذایی</div>
+        <div class="slide" data-target="t2-4">زیست‌ فناوری محیط‌زیست</div>
+        <div class="slide" data-target="t2-5">زیست‌ فناوری صنعتی</div>
+        <div class="slide" data-target="t2-6">
+          بیوانفورماتیک و داده‌های زیستی
+        </div>
+        <div class="slide" data-target="t2-7">نانوزیست‌ فناوری</div>
+        <div class="slide" data-target="t2-8">دام، طیور و آبزیان</div>
+        <div class="slide" data-target="t2-9">تجهیزات و آزمایشگاه‌ها</div>
+        <div class="slide" data-target="t2-10">خدمات تخصصی و مشاوره</div>
+        <div class="slide" data-target="t2-11">شتاب‌دهنده‌ها و مراکز رشد</div>
+        <div class="slide" data-target="t2-12">حوزه‌های مرتبط</div>
+        <div class="slide" data-target="t2-13">صادرات و واردات</div>
+        <div class="slide" data-target="t2-14">آموزش و رویدادها</div>
+      </div>
+    </div>
+
+    <!--زیرشاخه t2-1 -->
+    <div id="accordion-container">
+      <section class="t2 active" id="t2-1">
+        <div class="sub-accordion">
+          <!-- 1. دارو و بیوداروها -->
+          <div class="sub-item">
+            <div class="sub-header">دارو و بیو داروها</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <img class="img" src="./photo_2025-12-08_18-07-59.jpg" alt="" />
+                <h3>Name 1</h3>
+                <p class="desc">
+                  لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ
+                </p>
+                <span class="location">تهران</span>
+              </a>
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 2. واکسن‌ها، پروتئین‌های نوترکیب -->
+          <div class="sub-item">
+            <div class="sub-header">واکسن‌ها، پروتئین‌های نوترکیب</div>
+            <div class="sub-content text-box" id="text-box">
+              <h5>برای این زیرشاخه‌ محتوایی وجود ندارد.</h5>
+            </div>
+          </div>
+          <!-- 3. تشخیص‌های نوین -->
+          <div class="sub-item">
+            <div class="sub-header">
+              تشخیص‌های نوین – PCR، کیت‌های تشخیصی، بایوسنسورها
+            </div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 4. تجهیزات و دستگاه‌های پزشکی – بیوتک -->
+          <div class="sub-item">
+            <div class="sub-header">تجهیزات و دستگاه‌های پزشکی – بیوتک</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 5. سلول‌درمانی و ژن‌درمانی -->
+          <div class="sub-item">
+            <div class="sub-header">سلول‌درمانی و ژن‌درمانی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 6. بانک‌های سلولی و خدمات کشت سلول -->
+          <div class="sub-item">
+            <div class="sub-header">بانک‌های سلولی و خدمات کشت سلول</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 7. بیوانفورماتیک پزشکی -->
+          <div class="sub-item">
+            <div class="sub-header">بیوانفورماتیک پزشکی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 8. مهندسی بافت -->
+          <div class="sub-item">
+            <div class="sub-header">مهندسی بافت</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 9. نانوبیوتکنولوژی پزشکی -->
+          <div class="sub-item">
+            <div class="sub-header">نانوبیوتکنولوژی پزشکی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!--زیرشاخه t2-2 -->
+    <div id="accordion-container">
+      <section class="t2" id="t2-2">
+        <div class="sub-accordion">
+          <!-- 1. بذر و نهال‌های به‌نژاد شده -->
+          <div class="sub-item">
+            <div class="sub-header">بذر و نهال‌های به‌نژاد شده</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 2. کودهای زیستی و محرک‌های رشد -->
+          <div class="sub-item">
+            <div class="sub-header">کودهای زیستی و محرک‌های رشد</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 3. آفت‌کش‌های زیستی -->
+          <div class="sub-item">
+            <div class="sub-header">آفت‌کش‌ های زیستی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 4. کشت بافت گیاهی -->
+          <div class="sub-item">
+            <div class="sub-header">کشت‌ بافت گیاهی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 5. میکروارگانیسم‌های مفید کشاورزی -->
+          <div class="sub-item">
+            <div class="sub-header">میکروارگانیسم‌های مفید کشاورزی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 6. سامانه‌های هوشمند کشاورزی -->
+          <div class="sub-item">
+            <div class="sub-header">سامانه‌های هوشمند کشاورزی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 7. قارچ صنعتی و تولیدات مرتبط -->
+          <div class="sub-item">
+            <div class="sub-header">قارچ صنعتی و تولیدات مرتبط</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 8. نانوفناوری در کشاورزی -->
+          <div class="sub-item">
+            <div class="sub-header">نانوفناوری در کشاورزی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!--زیرشاخه t2-3 -->
+    <div id="accordion-container">
+      <section class="t2" id="t2-3">
+        <div class="sub-accordion">
+          <!-- 1. پروبیوتیک‌ها -->
+          <div class="sub-item">
+            <div class="sub-header">پروبیوتیک‌ها</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 2. آنزیم‌های صنایع غذایی -->
+          <div class="sub-item">
+            <div class="sub-header">آنزیم‌های صنایع غذایی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 3. افزودنی‌های طبیعی -->
+          <div class="sub-item">
+            <div class="sub-header">افزودنی‌های طبیعی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 4. تخمیرهای صنعتی -->
+          <div class="sub-item">
+            <div class="sub-header">تخمیرهای صنعتی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 5. غذاهای عملگرا -->
+          <div class="sub-item">
+            <div class="sub-header">غذاهای عملگرا</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 6. سیستم‌های بسته‌بندی زیستی -->
+          <div class="sub-item">
+            <div class="sub-header">سیستم های بسته‌بندی زیستی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- 7. کنترل کیفیت و آزمایشگاه‌های مواد غذایی -->
+          <div class="sub-item">
+            <div class="sub-header">کنترل کیفیت و آزمایشگاه‌های مواد غذایی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!--زیرشاخه t2-4 -->
+    <div id="accordion-container">
+      <section class="t2" id="t2-4">
+        <div class="sub-accordion">
+          <!-- 1. تصفیه آب و پساب زیستی -->
+          <div class="sub-item">
+            <div class="sub-header">تصفیه آب و پساب زیستی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 2. بازیافت پسماندهای آلی -->
+          <div class="sub-item">
+            <div class="sub-header">بازیافت پسماندهای آلی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 3. میکروارگانیسم‌های تجزیه‌کننده -->
+          <div class="sub-item">
+            <div class="sub-header">میکروارگانیسم‌های تجزیه‌کننده</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 4. فناوری‌های کاهش آلودگی هوا -->
+          <div class="sub-item">
+            <div class="sub-header">فناوری‌های کاهش آلودگی هوا</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 5. زیست ‌حسگرهای محیطی -->
+          <div class="sub-item">
+            <div class="sub-header">زیست ‌حسگرهای محیطی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 6. مدیریت پسماندهای خطرناک -->
+          <div class="sub-item">
+            <div class="sub-header">مدیریت پسماندهای خطرناک</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!--زیرشاخه t2-5 -->
+
+    <div id="accordion-container">
+      <section class="t2" id="t2-5">
+        <div class="sub-accordion">
+          <!-- 1. آنزیم‌ها و بیوکاتالیست‌ها -->
+          <div class="sub-item">
+            <div class="sub-header">آنزیم‌ها و بیوکاتالیست ‌ها</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 2. تولید پروتئین، پپتید و مواد زیستی صنعتی -->
+          <div class="sub-item">
+            <div class="sub-header">
+              تولید پروتئین، پپتید و مواد زیستی صنعتی
+            </div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 3. فرایندهای تخمیری -->
+          <div class="sub-item">
+            <div class="sub-header">فرایندهای تخمیری</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 4. بیوپلیمرها و پلاستیک‌های زیستی -->
+          <div class="sub-item">
+            <div class="sub-header">بیوپلیمرها و پلاستیک‌های زیستی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 5. تولید اسیدهای آلی و زیست‌سوخت‌ها -->
+          <div class="sub-item">
+            <div class="sub-header">تولید اسیدهای آلی و زیست‌سوخت‌ها</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 6. بیوراکتور و تجهیزات فرآیندی -->
+          <div class="sub-item">
+            <div class="sub-header">بیوراکتور و تجهیزات فرآیندی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!--زیرشاخه t2-6 -->
+    <div id="accordion-container">
+      <section class="t2" id="t2-6">
+        <div class="sub-accordion">
+          <!-- 1. تحلیل ژنوم و ترنسکریپتوم -->
+          <div class="sub-item">
+            <div class="sub-header">تحلیل ژنوم و ترنسکریپتوم</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 2. طراحی دارو و شبیه‌سازی مولکولی -->
+          <div class="sub-item">
+            <div class="sub-header">طراحی دارو و شبیه‌سازی مولکولی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 3. هوش مصنوعی در زیست‌فناوری -->
+          <div class="sub-item">
+            <div class="sub-header">هوش مصنوعی در زیست‌فناوری</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 4. پلتفرم‌های SaaS زیستی -->
+          <div class="sub-item">
+            <div class="sub-header">پلتفرم‌های SaaS زیستی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 5. بانک‌های اطلاعات زیستی -->
+          <div class="sub-item">
+            <div class="sub-header">بانک‌های اطلاعات زیستی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 6. سامانه‌های آزمایشگاهی هوشمند -->
+          <div class="sub-item">
+            <div class="sub-header">سامانه‌های آزمایشگاهی هوشمند</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!--زیرشاخه t2-7 -->
+    <div id="accordion-container">
+      <section class="t2" id="t2-7">
+        <div class="sub-accordion">
+          <!-- 1. نانوذرات دارویی -->
+          <div class="sub-item">
+            <div class="sub-header">نانوذرات دارویی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 2. نانوسنسورها -->
+          <div class="sub-item">
+            <div class="sub-header">نانوسنسورها</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 3. نانو پوشش‌ها و نانوکامپوزیت‌ها -->
+          <div class="sub-item">
+            <div class="sub-header">نانو پوشش‌ها و نانوکامپوزیت‌ ها</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 4. نانو در تشخیص و تصویربرداری -->
+          <div class="sub-item">
+            <div class="sub-header">نانو در تشخیص و تصویربرداری</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 5. نانو در کشاورزی و محیط‌زیست -->
+          <div class="sub-item">
+            <div class="sub-header">نانو در کشاورزی و محیط‌زیست</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!--زیرشاخه t2-8 -->
+    <div id="accordion-container">
+      <section class="t2" id="t2-8">
+        <div class="sub-accordion">
+          <!-- 1. واکسن‌ها و داروهای دامپزشکی -->
+          <div class="sub-item">
+            <div class="sub-header">واکسن‌ها و داروهای دامپزشکی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 2. مکمل‌های زیستی دام و طیور -->
+          <div class="sub-item">
+            <div class="sub-header">مکمل‌های زیستی دام و طیور</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 3. تشخیص‌های دامپزشکی -->
+          <div class="sub-item">
+            <div class="sub-header">تشخیص‌های دامپزشکی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 4. اصلاح نژاد دام و طیور -->
+          <div class="sub-item">
+            <div class="sub-header">اصلاح نژاد دام و طیور</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 5. آبزی‌پروری زیستی -->
+          <div class="sub-item">
+            <div class="sub-header">آبزی‌پروری زیستی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 6. خوراک‌های تخصصی دام -->
+          <div class="sub-item">
+            <div class="sub-header">خوراک‌های تخصصی دام</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!--زیرشاخه t2-9 -->
+    <div id="accordion-container">
+      <section class="t2" id="t2-9">
+        <div class="sub-accordion">
+          <!-- 1. دستگاه‌های بیوتکنولوژی -->
+          <div class="sub-item">
+            <div class="sub-header">دستگاه‌های بیوتکنولوژی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 2. تجهیزات آزمایشگاهی -->
+          <div class="sub-item">
+            <div class="sub-header">تجهیزات آزمایشگاهی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 3. شرکت‌های خدمات آزمون و کالیبراسیون -->
+          <div class="sub-item">
+            <div class="sub-header">شرکت‌های خدمات آزمون و کالیبراسیون</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 4. طراحی و ساخت آزمایشگاه -->
+          <div class="sub-item">
+            <div class="sub-header">طراحی و ساخت آزمایشگاه</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 5. خدمات GMP، GLP، BSL -->
+          <div class="sub-item">
+            <div class="sub-header">خدمات GMP، GLP، BSL</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 6. مشاوره اخذ مجوزها و استانداردها -->
+          <div class="sub-item">
+            <div class="sub-header">مشاوره اخذ مجوزها و استانداردها</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!--زیرشاخه t2-10 -->
+    <div id="accordion-container">
+      <section class="t2" id="t2-10">
+        <div class="sub-accordion">
+          <!-- 1. اخذ مجوزها (مجوز غذا و دارو، محیط‌زیست، دامپزشکی، استاندارد) -->
+          <div class="sub-item">
+            <div class="sub-header">
+              اخذ مجوزها (مجوز غذا و دارو، محیط‌زیست، دامپزشکی، استاندارد)
+            </div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 2. تدوین پرونده فنی -->
+          <div class="sub-item">
+            <div class="sub-header">تدوین پرونده فنی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 3. مشاوره R&D -->
+          <div class="sub-item">
+            <div class="sub-header">مشاوره R&D</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 4. ارزیابی فناوری و تجاری‌سازی -->
+          <div class="sub-item">
+            <div class="sub-header">ارزیابی فناوری و تجاری‌سازی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 5. مشاوره استانداردها -->
+          <div class="sub-item">
+            <div class="sub-header">مشاوره استانداردها</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 6. نمونه‌سازی و پایلوت -->
+          <div class="sub-item">
+            <div class="sub-header">نمونه‌سازی و پایلوت</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!--زیرشاخه t2-11 -->
+    <div id="accordion-container">
+      <section class="t2" id="t2-11">
+        <div class="sub-accordion">
+          <!-- 1. شتاب‌دهنده‌های تخصصی زیست‌ فناوری -->
+          <div class="sub-item">
+            <div class="sub-header">شتاب‌دهنده‌های تخصصی زیست‌ فناوری</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 2. مراکز رشد دانشگاهی -->
+          <div class="sub-item">
+            <div class="sub-header">مراکز رشد دانشگاهی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 3. پارک‌های علم و فناوری -->
+          <div class="sub-item">
+            <div class="sub-header">پارک‌های علم و فناوری</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 4. خانه‌های خلاق و نوآوری -->
+          <div class="sub-item">
+            <div class="sub-header">خانه‌های خلاق و نوآوری</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 5. صندوق‌های سرمایه‌گذاری جسورانه (VC) -->
+          <div class="sub-item">
+            <div class="sub-header">صندوق‌های سرمایه‌گذاری جسورانه (VC)</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 6. سرمایه‌گذاران فرشته (Angel) -->
+          <div class="sub-item">
+            <div class="sub-header">سرمایه‌گذاران فرشته (Angel)</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!--زیرشاخه t2-12 -->
+    <div id="accordion-container">
+      <section class="t2" id="t2-12">
+        <div class="sub-accordion">
+          <!-- 1. فب ‌لب‌ها و مراکز ساخت نمونه اولیه -->
+          <div class="sub-item">
+            <div class="sub-header">فب ‌لب‌ها و مراکز ساخت نمونه اولیه</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!--زیرشاخه t2-13 -->
+    <div id="accordion-container">
+      <section class="t2" id="t2-13">
+        <div class="sub-accordion">
+          <!-- 1. صادرکنندگان محصولات زیستی -->
+          <div class="sub-item">
+            <div class="sub-header">صادرکنندگان محصولات زیستی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 2. واردکنندگان مواد اولیه و کیت‌ها -->
+          <div class="sub-item">
+            <div class="sub-header">واردکنندگان مواد اولیه و کیت‌ها</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 3. شرکت‌های لجستیک تخصصی -->
+          <div class="sub-item">
+            <div class="sub-header">شرکت‌های لجستیک تخصصی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 4. خدمات بازرگانی، استاندارد صادراتی، CE، FDA -->
+          <div class="sub-item">
+            <div class="sub-header">
+              خدمات بازرگانی، استاندارد صادراتی، CE، FDA
+            </div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!--زیرشاخه t2-14 -->
+    <div id="accordion-container">
+      <section class="t2" id="t2-14">
+        <div class="sub-accordion">
+          <!-- 1. دوره‌های تخصصی بیوتک -->
+          <div class="sub-item">
+            <div class="sub-header">دوره‌های تخصصی بیوتک</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 2. بوت‌کمپ‌ها -->
+          <div class="sub-item">
+            <div class="sub-header">بوت‌کمپ‌ها</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 3. وبینارها و کارگاه‌ها -->
+          <div class="sub-item">
+            <div class="sub-header">وبینارها و کارگاه‌ها</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 4. رویدادهای استارتاپی -->
+          <div class="sub-item">
+            <div class="sub-header">رویدادهای استارتاپی</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+          <!-- 5. انجمن‌ها و تشکل‌های علم -->
+          <div class="sub-item">
+            <div class="sub-header">انجمن‌ها و تشکل‌های علم</div>
+            <div class="sub-content">
+              <a href="#" class="card">
+                <div class="img"></div>
+                <h3>Name 1</h3>
+                <p class="desc">Description Text 1</p>
+                <span class="location">Location 1</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script>
+      document.querySelectorAll(".sub-header").forEach((header) => {
+        header.addEventListener("click", () => {
+          const content = header.nextElementSibling;
+          const isOpen = content.style.display === "flex";
+          
+          document
+            .querySelectorAll(".sub-content")
+            .forEach((c) => (c.style.display = "none"));
+          
+          if (!isOpen) {
+            content.style.display = "flex";
+          }
+        });
+      });
+
+    
+      const slides = document.querySelectorAll(".slide");
+      const t2Sections = document.querySelectorAll(".t2");
+
+      slides.forEach((slide) => {
+        slide.addEventListener("click", () => {
+          const targetId = slide.dataset.target;
+          t2Sections.forEach((sec) => {
+            sec.classList.remove("active");
+          });
+          const targetSection = document.getElementById(targetId);
+          if (targetSection) targetSection.classList.add("active");
+
+          targetSection.scrollIntoView({ behavior: "smooth" });
+        });
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        const headers = document.querySelectorAll(".sub-header");
+
+        headers.forEach((header) => {
+          header.addEventListener("click", () => {
+            const content = header.nextElementSibling;
+
+            if (content.style.maxHeight) {
+              content.style.maxHeight = null;
+            } else {
+              document
+                .querySelectorAll(".sub-content")
+                .forEach((c) => (c.style.maxHeight = null));
+
+              content.style.maxHeight = content.scrollHeight + "px";
+            }
+          });
+        });
+
+        document
+          .querySelectorAll(".sub-content")
+          .forEach((c) => (c.style.maxHeight = null));
+      });
+
+      const sections = document.querySelectorAll(".t2");
+
+      slides.forEach((slide) => {
+        slide.addEventListener("click", () => {
+          const targetId = slide.dataset.target;
+
+          slides.forEach((s) => s.classList.remove("active"));
+          sections.forEach((sec) => sec.classList.remove("active"));
+
+          slide.classList.add("active");
+          const targetSection = document.getElementById(targetId);
+          if (targetSection) targetSection.classList.add("active");
+        });
+      });
+
+      document.querySelectorAll(".t2-toggle").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          const t2 = e.currentTarget.nextElementSibling;
+          t2.classList.toggle("active"); 
+
+          
+          adjustCardAlignment(".t2 .cards");
+        });
+      });
+      function adjustCardAlignment(containerSelector) {
+        const container = document.querySelector(containerSelector);
+        if (!container) return;
+
+        const cards = container.querySelectorAll(".card");
+        if (cards.length === 0) return;
+
+        
+        container.style.display = "flex";
+        container.style.gap = "10px"; 
+        container.style.transition = "justify-content 0.3s ease"; 
+
+        if (cards.length === 1) {
+          container.style.justifyContent = "flex-end";
+        } else if (cards.length < 4) {
+          container.style.justifyContent = "flex-start";
+        } else {
+          container.style.justifyContent = "space-between";
+        }
+
+     
+        cards.forEach((card) => {
+          card.style.flex = "0 0 150px"; 
+        });
+      }
+    </script>
+  </body>
+</html>
